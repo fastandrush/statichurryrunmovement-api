@@ -91,7 +91,7 @@ mongodb.log(mongoose.connection);
 if ( process.env.NODE.ENV === 'production' ) {
   app.use(express.static(__dirname, 'view/build'))
 
-  app.get('*', (req,res) => {
+  app.get(/.*$/, (req,res) => {
      res.sendFile(path.join(_dirname, 'view/build', 'index.html'));
   })
 
