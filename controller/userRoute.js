@@ -670,7 +670,8 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
      //    dbName: 'Investor',
      //    autoCreate: false
      // })
-
+  
+     console.log('mac')
       await mongoose.connect(process.env.ATLAS_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,

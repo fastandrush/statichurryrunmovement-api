@@ -34,7 +34,12 @@ const fundsRoute = require('./controller/fundsRoute.js');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+});
 
 
 const sessionInilizationConfiguration = {
@@ -45,7 +50,7 @@ const sessionInilizationConfiguration = {
 }
 
 const sessionStore = MongoStore.create({
-  mongoUrl: 'mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
+  mongoUrl: ' mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
   collection: 'sessions',
   dbName: 'Sessions'
 })
