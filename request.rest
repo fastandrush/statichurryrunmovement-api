@@ -1,0 +1,79 @@
+GET http://localhost:4000/mac
+
+###
+POST https://api.xendit.co/customers
+Authorization: Basic eG5kX2RldmVsb3BtZW50X2RaMEE3S3E4M2ZlRnp0bHBjbHc3UkE5cDJ4Zk54alp3dTQxdU5yUFdmb0hPQXBKY1ZIbW1SMHcxYVJrdkNrOg==
+
+{
+    "reference_id": "customer-id-123",
+    "mobile_number": "+6208774494404",
+    "given_names": "John Doe"
+}
+
+### 
+GET http://localhost:4000/futuremacholder/validatingcontactnumberinformation 
+
+### 
+POST http://localhost:4000/futuremacholder/invest
+
+        {                    
+            "fn": "Fn1",
+            "mn": "Mn1",
+            "n": "Ln1",
+            "address": {
+                       "mc": {
+                            "fn": "Fn1",
+                            "middlename": "Mn1",
+                            "ln": "Ln1", 
+                            },
+                         "pr": "Province1",
+                         "cty": "City1",
+                         "brgy": "Baranggay1",
+                              "st": "Street1",
+                              "tm": "Trademark1"
+                            },
+                          "cn": 09550744118,
+                          "cea": "markiebeloy@gmail.com",
+                          "maccredits": {
+                               "investment": 0,
+                               "lastpersononearth": 0
+                          }
+    }
+
+
+###
+POST http://localhost:4000/macministrator/getorignatorproductstatisticsgraphsecondweek
+
+###
+POST http://localhost:4000/macministrator/addproduct/macsetitem
+
+### 
+GET http://localhost:4000/macsetitem/getmacsetitemss
+
+###
+POST http://localhost:4000/shipping/jandt/getshippingrate
+ 
+   
+     mindanao: "shippingrate"
+
+### 
+POST http://localhost:4000/item/buy
+
+###
+POST http://localhost:4000/storeditemrevenue/compromise 
+
+### 
+POST http://localhost:4000/share/dummy/gross
+
+
+### 
+GET http://localhost:4000/macsetitem/get
+
+###
+GET http://localhost:4000/futuremacholder/validatingcontactnumberinformation
+
+### 
+GET http://localhost:4000/getitems/sortall 
+
+###
+POST http://localhost:4000/getitems/specificitem
