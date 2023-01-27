@@ -50,7 +50,7 @@ const sessionInilizationConfiguration = {
 }
 
 const sessionStore = MongoStore.create({
-  mongoUrl: ' mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
+  mongoUrl: 'mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
   collection: 'sessions',
   dbName: 'Sessions'
 })
@@ -97,4 +97,5 @@ if ( process.env.NODE.ENV === 'production' ) {
 
 } 
 
+console.log(process.env.ATLAS_URI)
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
