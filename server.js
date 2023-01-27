@@ -45,7 +45,7 @@ const sessionInilizationConfiguration = {
 }
 
 const sessionStore = MongoStore.create({
-  mongoUrl: process.env.ATLAS_URI, sessionInilizationConfiguration,
+  mongoUrl: 'mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
   collection: 'sessions',
   dbName: 'Sessions'
 })
