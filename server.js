@@ -34,12 +34,7 @@ const fundsRoute = require('./controller/fundsRoute.js');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors({
-  origin: "*",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-  optionsSuccessStatus: 200
-}));
+app.use(cors());
 
 
 const sessionInilizationConfiguration = {
@@ -81,21 +76,21 @@ app.use('/storeditemrevenue', storedItemRevenueRoute);
 app.use('/funds', fundsRoute);
 
 
-app.get('/', (req, res)=> {
-  console.log(req.sessionID)
-  res.send(req.sessionID)
-})
+//app.use(express.static(__dirname, 'view/build'))
+
+app.use(express.static('view/build'));
 
 mongodb.log(mongoose.connection);
+console.log(process.env.NODE_ENV)
 
-if ( process.env.NODE.ENV === 'production' ) {
-  app.use(express.static(__dirname, 'view/build'))
 
-  app.get(/.*$/, (req,res) => {
-     res.sendFile(path.join(_dirname, 'view/build', 'index.html'));
+if ( process.env.NODE_ENV === 'production' ) {
+  app.get('/', (req,res) => {
+     res.sendFile(path.join(__dirname, 'view/build', 'index.html'));
   })
 
-} 
+}  
+
 
 console.log(process.env.ATLAS_URI)
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
