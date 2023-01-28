@@ -681,25 +681,11 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
    
       const User = mongoose.model('investors', investor)
      
-      await User.find({firstname: req.body.user})
-        .then( async (response)=> {
-          console.log(response)
+      const currentlyloginuser = await User.find({firstname: req.body.user})
 
-          const maccredits = Number(response[0].maccredits.based) + Number(response[0].maccredits.investment)
-       
-          const _currentLoginUserData = {
-             firstname: response[0].firstname,
-             userlocation: response[0].address.isl,
-             itemsoncart: response[0].itemsoncart,
-             maccredits: {
-              based: Number(response[0].maccredits.based),
-              investment: Number(response[0].maccredits.investment),
-             }
-          }
- 
-          console.log(_currentLoginUserData)
-          await mongoose.connection.close()
-          res.send(_currentLoginUserData)
+      console.log(currentlyloginuser)
+      
+   
       })
      .catch((err)=> {
          console.log('Code first' + err + ' ' + 'getuser')
