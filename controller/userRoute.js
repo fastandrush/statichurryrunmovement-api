@@ -693,7 +693,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
              maccredits: {
               based: Number(response[0].maccredits.based),
               investment: Number(response[0].maccredits.invesment),
-             }.
+             },
              itemsoncart: response[0].itemsoncart
           }
  
