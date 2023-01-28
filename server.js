@@ -96,7 +96,7 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 }  
 
-app.get('/logo192.png').post((res,req)=> {
+app.get('/logo192.png',(res,req)=> {
   console.log('not favicon')
   res.end();
 })
