@@ -698,7 +698,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
           }
  
           console.log(_currentLoginUserData)
-         
+          mongoose.connection.close()
           res.send(_currentLoginUserData)
       })
      .catch((err)=> {
