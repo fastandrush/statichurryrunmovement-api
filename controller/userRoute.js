@@ -685,7 +685,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
         .then((response)=> {
           console.log(response)
 
-          const maccredits = Number(response[0].maccredits.based) + Number(response[0].maccredits.based)
+          const maccredits = Number(response[0].maccredits.based) + Number(response[0].maccredits.investment)
        
           const _currentLoginUserData = {
              firstname: response[0].firstname,
@@ -702,7 +702,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
           res.send(_currentLoginUserData)
       })
      .catch((err)=> {
-         console.log('Code first' + err)
+         console.log('Code first' + err + ' ' + 'getuser')
          res.send('Code first')
      })
 
