@@ -671,7 +671,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
      //    autoCreate: false
      // })
   
-     console.log('mac')
+
       await mongoose.connect(process.env.ATLAS_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -685,13 +685,6 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
 
       console.log(currentlyloginuser)
       
-   
-      })
-     .catch((err)=> {
-         console.log('Code first' + err + ' ' + 'getuser')
-         res.send('Code first')
-     })
-
 })
 
 module.exports = Router;
