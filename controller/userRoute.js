@@ -683,6 +683,8 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
      
       const currentlyloginuser = await User.find({firstname: req.body.user})
 
+      console.log(currentlyloginuser)
+
       const maccredits = Number(currentlyloginuser[0].maccredits.based) + Number(currentlyloginuser[0].maccredits.investment)
      
       const _currentLoginUserData = {
