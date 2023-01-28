@@ -681,7 +681,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
    
       const User = mongoose.model('investors', investor)
      
-      await User.find({firstname: req.body.user})
+      User.find({firstname: req.body.user})
         .then((response)=> {
           console.log(response)
 
