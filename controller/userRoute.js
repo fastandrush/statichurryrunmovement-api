@@ -682,7 +682,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
       const User = mongoose.model('investors', investor)
      
       await User.find({firstname: req.body.user})
-        .then((response)=> {
+        .then( async (response)=> {
           console.log(response)
 
           const maccredits = Number(response[0].maccredits.based) + Number(response[0].maccredits.investment)
@@ -698,7 +698,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
           }
  
           console.log(_currentLoginUserData)
-          mongoose.connection.close()
+          await mongoose.connection.close()
           res.send(_currentLoginUserData)
       })
      .catch((err)=> {
