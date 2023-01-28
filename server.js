@@ -96,11 +96,6 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 }  
 
-app.get('/logo192.png',(res,req)=> {
-  console.log('not favicon')
-  res.end();
-})
-
 
 console.log(process.env.ATLAS_URI)
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
