@@ -671,7 +671,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
      //    autoCreate: false
      // })
   
-
+     try {
       await mongoose.connect(process.env.ATLAS_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -697,8 +697,13 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
         }
       }
 
-      await mongoose.connection.close()
+      
       res.status(200).send(_currentLoginUserData)
+     } catch(err) {
+       console.log('Error getting currentlyloginuser' + ' ' + err)
+     } finally {
+      await mongoose.connection.close()
+     }
       
 })
 
