@@ -64,6 +64,8 @@ Router.route('/get').get( async (req, res)=> {
  
    req.macSetItems = [];
 
+   try {
+
    await mongodb.connect(process.env.ATLAS_URI, {
          useNewUrlParser: true,
          useUnifiedTopology: true,
@@ -71,36 +73,39 @@ Router.route('/get').get( async (req, res)=> {
          autoCreate: false
    })
 
-   const MacSetItem = mongoose.model('macsetitems', macSetItem);
+   const MacSetItem = await mongoose.model('macsetitems', macSetItem);
  
-   await MacSetItem.find()
-      .then((response)=> {
-           console.log('Mac set item' + response)
-           for ( let i = 0; i < response.length; i++) {
-              let dataObj = {
-                 macsetitemnumber: response[i].macsetitemnumber,
-                 originator: response[i].originator,
-                 macsetitemproductname: response[i].macsetproductname,
-                 macsetitemproductprice: response[i].macsetproductprice,
-                 vat: response[i].vat, 
-                 macsetitemproductdescription: response[i].macsetproductdescription,
-                 macsetitemlocation: response[i].macsetitemlocation,
-                 macsetweight: response[i].macsetweight,
-                 macsetitemdisplayimage: response[i].macsetitemdisplayimage,
-                 macmainsetitemtype: response[i].macmainsetitemtype,
-                 macsetitemtype: response[i].macsetitemtype,
-                 items: response[i].items
-              }
-
-              req.macSetItems.push(dataObj)
-           }
-
-           mongoose.connection.close();
-           res.send(req.macSetItems);   
-        })
-
-        req.macSetItems = [];
+   const macsetitemitems = await MacSetItem.find()
    
+   for ( let i = 0; i < response.length; i++) {
+      let dataObj = {
+         macsetitemnumber: response[i].macsetitemnumber,
+         originator: response[i].originator,
+         macsetitemproductname: response[i].macsetproductname,
+         macsetitemproductprice: response[i].macsetproductprice,
+         vat: response[i].vat, 
+         macsetitemproductdescription: response[i].macsetproductdescription,
+         macsetitemlocation: response[i].macsetitemlocation,
+         macsetweight: response[i].macsetweight,
+         macsetitemdisplayimage: response[i].macsetitemdisplayimage,
+         macmainsetitemtype: response[i].macmainsetitemtype,
+         macsetitemtype: response[i].macsetitemtype,
+         items: response[i].items
+      }
+
+      req.macSetItems.push(dataObj)
+   }
+   
+   console.log('Mac set item' + response)
+   mongoose.connection.close();
+   res.send(req.macSetItems);  
+ 
+   } catch(err) {
+      console.log('Error getting all Mac set items:' + err)
+   } finally {
+
+   }
+
 })
 
 async function updateMacSetItemGetProduct(req, res, next) {
