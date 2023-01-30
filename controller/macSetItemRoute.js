@@ -96,14 +96,14 @@ Router.route('/get').get( async (req, res)=> {
       req.macSetItems.push(dataObj)
    }
 
-   console.log('Mac set items' + response)
-   mongoose.connection.close();
+   console.log('Mac set items' + macsetitemitems)
+   await mongoose.connection.close();
    res.send(req.macSetItems);  
  
    } catch(err) {
-      console.log('Error getting all Mac set items:' + err)
+      console.log('Error getting all Mac set items' + '</br>' + err)
    } finally {
-
+      req.macSetItems = []
    }
 
 })
