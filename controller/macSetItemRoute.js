@@ -95,8 +95,8 @@ Router.route('/get').get( async (req, res)=> {
 
       req.macSetItems.push(dataObj)
    }
-   
-   console.log('Mac set item' + response)
+
+   console.log('Mac set items' + response)
    mongoose.connection.close();
    res.send(req.macSetItems);  
  
