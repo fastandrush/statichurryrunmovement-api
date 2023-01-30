@@ -77,20 +77,20 @@ Router.route('/get').get( async (req, res)=> {
  
    const macsetitemitems = await MacSetItem.find()
    
-   for ( let i = 0; i < response.length; i++) {
+   for ( let i = 0; i < macsetitemitems.length; i++) {
       let dataObj = {
-         macsetitemnumber: response[i].macsetitemnumber,
-         originator: response[i].originator,
-         macsetitemproductname: response[i].macsetproductname,
-         macsetitemproductprice: response[i].macsetproductprice,
-         vat: response[i].vat, 
-         macsetitemproductdescription: response[i].macsetproductdescription,
-         macsetitemlocation: response[i].macsetitemlocation,
-         macsetweight: response[i].macsetweight,
-         macsetitemdisplayimage: response[i].macsetitemdisplayimage,
-         macmainsetitemtype: response[i].macmainsetitemtype,
-         macsetitemtype: response[i].macsetitemtype,
-         items: response[i].items
+         macsetitemnumber: macsetitemitems[i].macsetitemnumber,
+         originator: macsetitemitems[i].originator,
+         macsetitemproductname: macsetitemitems[i].macsetproductname,
+         macsetitemproductprice: macsetitemitems[i].macsetproductprice,
+         vat: macsetitemitems[i].vat, 
+         macsetitemproductdescription: macsetitemitems[i].macsetproductdescription,
+         macsetitemlocation: macsetitemitems[i].macsetitemlocation,
+         macsetweight: macsetitemitems[i].macsetweight,
+         macsetitemdisplayimage: macsetitemitems[i].macsetitemdisplayimage,
+         macmainsetitemtype: macsetitemitems[i].macmainsetitemtype,
+         macsetitemtype: macsetitemitems[i].macsetitemtype,
+         items: macsetitemitems[i].items
       }
 
       req.macSetItems.push(dataObj)
