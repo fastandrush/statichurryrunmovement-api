@@ -73,7 +73,7 @@ Router.route('/get').get( async (req, res)=> {
          autoCreate: false
    })
 
-   const MacSetItem = await mongoose.model('macsetitems', macSetItem);
+   const MacSetItem = await mongoose.model('Macsetitems', macSetItem);
  
    const macsetitemitems = await MacSetItem.find()
    
