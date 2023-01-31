@@ -698,7 +698,7 @@ Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
       }
 
       await mongoose.connection.close()
-      res.status(200).send(_currentLoginUserData)
+      res.send(_currentLoginUserData)
 
      } catch(err) {
        console.log('Error getting currentlyloginuser' + ' ' + err)
