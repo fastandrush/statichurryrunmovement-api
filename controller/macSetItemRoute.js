@@ -76,8 +76,7 @@ Router.route('/get').get( async (req, res)=> {
    const MacSetItem = await mongoose.model('Macsetitems', macSetItem);
  
    const macsetitemitems = await MacSetItem.find()
-   
-   console.log('Synced')
+      
    console.log('Mac set items' + macsetitemitems)
 
    for ( let i = 0; i < macsetitemitems.length; i++) {
