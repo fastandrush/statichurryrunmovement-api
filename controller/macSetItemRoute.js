@@ -72,13 +72,15 @@ Router.route('/get').get( async (req, res)=> {
          dbName: 'Macsetitem',
          autoCreate: false
    })
-
-   const MacSetItem = await mongoose.model('Macsetitems', macSetItem);
+   
+   /// compromis video upload between image item upload
+   const MacSetItem = mongoose.model('Macsetitems', macSetItem);
  
    MacSetItem.find()
      .then( async (response)=> {
-  
-      console.log('Mac set items' + response)
+
+      console.log('Mac set items')
+      console.log(response)
 
       for ( let i = 0; i < response.length; i++) {
          let dataObj = {
@@ -102,11 +104,12 @@ Router.route('/get').get( async (req, res)=> {
    
       await mongoose.connection.close();
       res.send(req.macSetItems);  
-
-     })   
+     }).catch((err)=> {
+      console.log('Error getting all mac set items:,' + err)
+     })  
   
    } catch(err) {
-      console.log('Error getting all Mac set items' + '</br>' + err)
+      console.log('Error accessing get Mac set route' + '</br>' + err)
    } finally {
       req.macSetItems = []
    }
