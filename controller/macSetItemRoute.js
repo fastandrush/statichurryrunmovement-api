@@ -76,8 +76,10 @@ Router.route('/get').get( async (req, res)=> {
    const MacSetItem = await mongoose.model('Macsetitems', macSetItem);
  
    MacSetItem.find()
-     .then((response)=> {
+     .then( async (response)=> {
   
+      console.log('Mac set items' + response)
+
       for ( let i = 0; i < response.length; i++) {
          let dataObj = {
             macsetitemnumber: response[i].macsetitemnumber,
@@ -93,20 +95,16 @@ Router.route('/get').get( async (req, res)=> {
             macsetitemtype: response[i].macsetitemtype,
             items: response[i].items
          }
+
    
          req.macSetItems.push(dataObj)
       }
    
-     
       await mongoose.connection.close();
-      res.send
+      res.send(req.macSetItems);  
 
      })   
   
-   console.log('Mac set items' + macsetitemitems)
-
-(req.macSetItems);  
- 
    } catch(err) {
       console.log('Error getting all Mac set items' + '</br>' + err)
    } finally {
