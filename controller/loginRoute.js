@@ -14,8 +14,12 @@ const investor = require('../model/userModel');
 const multer = require('multer');
 
 
-async function handleDBAuthentication(req, res, next) {
+async function databaseAuthenticationPersonalDetails(req, res, next) {
    
+  const _firstname = req.body.persondetails.firstname;
+  const _middlename = req.body.persondetails.middlename;
+  const _lastname = req.body.persondetails.lastname;
+
    try {
 
       await mongodb.connect(process.env.ATLAS_URI, {
@@ -25,31 +29,36 @@ async function handleDBAuthentication(req, res, next) {
        autoCreate: false
       })
    
-      const User = mongoose.model('investors', investor)
+      const User = await mongoose.model('investors', investor)
    
-      await User.find({firstname: req.body.fn, middlename: req.body.mn, lastname: req.body.ln})
-        .then((user)=> {
-            if (user) {
-              console.log(user)
-                 next()         
+      await User.findOne({ firstname: _firstname, 
+                        middlename: _middlename, 
+                        lastname: _lastname 
+                     })
+        .then((response)=> {
+            if (response) {
+              console.log('Registered user found:' + '\n' + '\n' + response)
+              req.mpcholder = response;         
             } else {
-                 console.log('No user')
-                 return;
+               console.log('No user')
+               res.status(200).send('Registered user found:' + 'Zero in database')
             }
         })
    
       } catch(err) {
-          console.log('1' + err.message)
-      } 
+          console.log('Login attempt error,' + err)
+      } finally {
+        await mongoose.connection.close()
+        next()
+      }
 
 }
 
-Router.route('/authenticate/validate').post(  handleDBAuthentication, async (req, res) => {
+Router.route('/login').post( databaseAuthenticationPersonalDetails, async (req, res, next) => {
   
-  console.log(req.body.fn)
-  console.log('Executed')
-
-  res.end();
+  const $mobileidnumber = req.mpcholder._id;
+  const $slicedmobileidnumber = $mobileidnumber.toString().slice(0,25);
+  res.status(200).send($slicedmobileidnumber);
 
 });
 

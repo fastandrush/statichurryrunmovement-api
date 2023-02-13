@@ -660,51 +660,52 @@ Router.route('/validatephonenumber').post(async (req, res)=> {
       return res.status(200).send('No duplicate contact number')
    
 })
-/////
-Router.route('/getcurrentlyloginmacuser').post(async (req, res)=> {
-    
-    //  await mongodb.connect(process.env.ATLAS_URI, {
-     //    useNewUrlParser: true,
-     //    useUnifiedTopology: true,
-     //    bufferCommands: false,
-     //    dbName: 'Investor',
-     //    autoCreate: false
-     // })
+
+
+
+///// mpc / get user data
+Router.route('/userdata').post(async (req, res)=> {
   
-     try {
+  const $mobileidnumber = req.body.mobileidnumber;
+
+  try {
+      
       await mongoose.connect(process.env.ATLAS_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         dbName: 'Investor',
         autoCreate: false
       })
-   
-      const User = mongoose.model('investors', investor)
-     
-      const currentlyloginuser = await User.findOne({firstname: req.body.user})
-
-      console.log(currentlyloginuser)
-
-      //const maccredits =  Number(currentlyloginuser.maccredits.investment) + Number(currentlyloginuser.maccredits.based)
-     
-      const _currentLoginUserData = {
-        firstname: currentlyloginuser.firstname,
-        userlocation: currentlyloginuser.address.isl,
-        itemsoncart: currentlyloginuser.itemsoncart,
+      
+      const User = await mongoose.model('investors', investor)
+      
+      const _currentlyloginuser = await  User.findById($mobileidnumber)
+      
+      const _currentlyloginuserdata = {
+        userstatus: 'Registered',
+        usersequence: 1,
+        mobileidnumber: $mobileidnumber,
+        isauthenticated: false,
+        firstname: _currentlyloginuser.firstname,
+        middlename: _currentlyloginuser.middlename,
+        lastname: _currentlyloginuser.lastname,
+        userlocation: _currentlyloginuser.address.isl,
+        favoriteitems: _currentlyloginuser.itemsoncart,
         maccredits: {
-          based: Number(currentlyloginuser.maccredits.based),
-          investment: Number(currentlyloginuser.maccredits.investment),
+          based: Number(_currentlyloginuser.maccredits.based),
+          investment: Number(_currentlyloginuser.maccredits.investment),
         }
       }
-
+  
+      console.log('Login attempt succesfull: ' + '\n' + `${_currentlyloginuser.firstname}` + '\n' + `${_currentlyloginuser.middlename}` + '\n' + `${_currentlyloginuser.lastname}` + '\n' +  'Credits:' + ' '+ `${_currentlyloginuser.maccredits.investment}` + '\n' + 'Authenticated:' + ' ' + `${_currentlyloginuser.authenticated}`)
       await mongoose.connection.close()
-      res.send(_currentLoginUserData)
+      res.status(200).send(_currentlyloginuserdata) 
 
-     } catch(err) {
-       console.log('Error getting currentlyloginuser' + ' ' + err)
-     } finally {
-
-     }
+  } catch(err) {
+        console.log('Error getting currently login user data,' + ' ' + err)
+  } finally { 
+     return
+  }
       
 })
 

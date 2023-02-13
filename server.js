@@ -19,13 +19,17 @@ const Xendit = require('xendit-node');
 const app = express();
 const PORT = process.env.PORT || 4000 ;
 
-const macContentRoute = require('./controller/macContentRoute.js');
+const loginRoute = require('./controller/loginRoute.js');
+const marketingRoute = require('./controller/marketingRoute.js');
+
+const contentRoute = require('./controller/contentRoute.js');
+
 const userRoute = require('./controller/userRoute.js');
 const addressRoute = require('./controller/addressRoute.js');
 const productRoute = require('./controller/productRoute.js');
 const macministratorRoute = require('./controller/macministratorRoute.js');
-const loginRoute = require('./controller/loginRoute.js');
-const macSetItemRoute = require('./controller/macSetItemRoute.js');
+
+
 const itemsRoute = require('./controller/itemRoute.js');
 const shippingRoute = require('./controller/shippingRoute.js');
 const shareRoute = require('./controller/shareRoute.js');
@@ -50,7 +54,7 @@ const sessionInilizationConfiguration = {
 }
 
 const sessionStore = MongoStore.create({
-  mongoUrl: 'mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/Mainnews?retryWrites=true&w=majority', sessionInilizationConfiguration,
+  mongoUrl: 'mongodb+srv://Mac:ukNaxwDH30S6aaoz@cluster0.q2m1o.mongodb.net/?retryWrites=true&w=majority', sessionInilizationConfiguration,
   collection: 'sessions',
   dbName: 'Sessions'
 })
@@ -67,14 +71,21 @@ app.use(session({
   }
 }))
 
-app.use('/maccontent', macContentRoute);
-app.use('/macsetitem', macSetItemRoute);
-app.use('/shipping', shippingRoute);
+
+app.use('/authenticate', loginRoute);
+app.use('/mpcholder', userRoute);
+
+app.use('/marketing', marketingRoute);
 app.use('/getitems', productRoute);
-app.use('/futuremacholder', userRoute);
+
+app.use('/content', contentRoute);
+
+///
+app.use('/shipping', shippingRoute);
+
 app.use('/population', addressRoute);
 app.use('/macministrator', macministratorRoute);
-app.use('/authentication', loginRoute);
+
 app.use('/item', itemsRoute);
 app.use('/share', shareRoute);
 app.use('/storeditemrevenue', storedItemRevenueRoute);
@@ -85,9 +96,14 @@ app.use('/funds', fundsRoute);
 
 app.use(express.static('view/build'));
 
-mongodb.log(mongoose.connection);
-console.log(process.env.NODE_ENV)
+mongoose.connect(process.env.ATLAS_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  autoCreate: false,
+  bufferCommands: false
+})
 
+mongodb.log(mongoose.connection);
 
 if ( process.env.NODE_ENV === 'production' ) {
   app.get('/', (req,res) => {
@@ -96,6 +112,4 @@ if ( process.env.NODE_ENV === 'production' ) {
 
 }  
 
-
-console.log(process.env.ATLAS_URI)
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));

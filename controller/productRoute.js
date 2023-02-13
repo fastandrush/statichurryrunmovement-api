@@ -7,25 +7,7 @@ const { on } = require('../model/productModel');
 
 const item = require('../model/productModel');
 
-Router.route('/sortall').get( async (req, res)=> {
-  
-  await mongodb.connect(process.env.ATLAS_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    dbName: 'Item',
-    autoCreate: false
-  })
 
-  const Items = await mongoose.model('items', item);
- 
-  await Items.find()
-    .then((response)=> {
-       console.log('All items' + response)
-       mongoose.connection.close()
-       res.send(response)
-    })
-      
-})
 
 Router.route('/specificitem').post( async (req, res)=> {
    

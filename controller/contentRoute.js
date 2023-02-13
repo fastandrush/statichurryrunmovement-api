@@ -243,72 +243,92 @@ Router.route('/ddd').post( async (req, res)=> {
     }
 })
 
+
 // MAC content API 
-Router.route('/maccontent/maccontent').get( async (req, res) => {
+Router.route('/masterprotectionconsitution').get( async (req, res) => {
+
+  try {
 
      await mongodb.connect(process.env.ATLAS_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        dbName: 'MacContent',
-        autoCreate: false
-      })
-
-      const Maccontent = mongoose.model('maccontents', macContents);
-
-      await Maccontent.find()
-
-      .then((response)=> {
-         console.log('MAC content,' + ' ' + response)
-          res.status(200).send([{
-                topic: "Mac creditcards out soon",
-                image: "../images/macnewsimages/mac-creditcard-image.png",
-                goal: "Putting prices on Mac credit cards. Website ads, video ads, 14.5% of e…",
-                author: "Mac",
-                date: "04.28.2022",
-                ytlinkstatus: false,
-                ytlink: "",
-                sequence: "1"
-          }, 
-         {
-         topic: "Macneslt",
-         image: "../images/macnewsimages/defaultimage",
-         goal: "Mac love nestle, nestle love nestle because nestle love mac, mac love …",
-         author: "Mac",
-         date: "04.28.2022",
-         ytlinkstatus: true,
-         ytlink: "https://youtu.be/syZju6ui394",
-         sequence: "3"
-         }])
-          mongoose.connection.close();
-      }).catch((err) => {
-          console.log('Error occured getting MAC content / MAC content' + err)
-      })
-   
-  
-
-})
-
-Router.route('/popularposts/popularposts').get( async (req, res) => {
-
-     await mongodb.connect(process.env.ATLAS_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        dbName: 'PopularPosts',
-        autoCreate: false
-      })
-
-      const Maccontent = mongoose.model('PopularPosts', popularPosts);
+       useNewUrlParser: true,
+       useUnifiedTopology: true,
+       dbName: 'MacContent',
+       autoCreate: false
+     })
  
-      await Maccontent.find() 
-         .then((response)=> {
-            mongoose.connection.close();
-            res.status(200).send(response)
-         })
-         .catch((err)=> {
-            console.log('Error occured whyl getting main news' + err)
-         }) 
+
+     const content = await mongoose.model('maccontent', macContents);
+ 
+     await content.find()
+       .then((response)=> {
+         const responsedata = response;
+         res.status(200).send(responsedata)
+         console.log('Master protection constitution content was loaded on the (U)user (I)nterface')
+         mongoose.connection.close();
+       })
+       } catch(err) {
+         console.log('Error while loading all MPC content A(pplication) P(rogram) I(nterface),' + '\n' + err)
+       } finally {
+          return
+       }
 
 })
+
+Router.route('/popularposts').get( async (req, res) => {
+
+  try {
+
+   await mongodb.connect(process.env.ATLAS_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      dbName: 'PopularPosts',
+      autoCreate: false
+    })
+
+    const content = await mongoose.model('popularposts', popularPosts);
+
+    await content.find() 
+       .then((response)=> {
+         res.status(200).send(response)
+         console.log('Popular posts content was loaded on the (U)user (I)nterface')
+         mongoose.connection.close();
+    })
+
+  } catch(err) {
+    console.log('Error while loading all popular posts A(pplication) P(rogram) I(nterface),' + '\n' + err)
+  } finally {
+   return
+  }
+  
+})
+
+Router.route('/latestcontents').get( async (req, res) => {
+
+   try {
+ 
+    await mongodb.connect(process.env.ATLAS_URI, {
+       useNewUrlParser: true,
+       useUnifiedTopology: true,
+       dbName: 'PopularPosts',
+       autoCreate: false
+     })
+ 
+     const content = await mongoose.model('popularposts', popularPosts);
+ 
+     await content.find() 
+        .then((response)=> {
+          res.status(200).send(response)
+          console.log('Latest contents was loaded on the (U)user (I)nterface')
+          mongoose.connection.close();
+     })
+ 
+   } catch(err) {
+     console.log('Error while loading all latest contents A(pplication) P(rogram) I(nterface),' + '\n' + err)
+   } finally {
+    return
+   }
+   
+ })
 
 
 

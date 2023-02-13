@@ -21,6 +21,92 @@ const storage = multer.diskStorage({
  
 const upload = multer({storage: storage})
 
+
+/// marketing, get 
+//mpc sets
+Router.route('/set/mpcmarketing').get( async (req, res)=> {
+ 
+   req.mpcsets = [];
+
+   try {
+
+   await mongodb.connect(process.env.ATLAS_URI, {
+         useNewUrlParser: true,
+         useUnifiedTopology: true,
+         dbName: 'Macsetitem',
+         autoCreate: false
+   })
+   
+   const marketing = await mongoose.model('macsetitems', macSetItem);
+ 
+   await marketing.find()
+    .then( async (response)=> {
+      const responsedata = response
+      for ( let i = 0; i < responsedata.length; i++) {
+         let dataObj = {
+            macsetitemnumber: response[i].macsetitemnumber,
+            originator: response[i].originator,
+            macsetitemproductname: response[i].macsetproductname,
+            macsetitemproductprice: response[i].macsetproductprice,
+            vat: response[i].vat, 
+            macsetitemproductdescription: response[i].macsetproductdescription,
+            macsetitemlocation: response[i].macsetitemlocation,
+            macsetweight: response[i].macsetweight,
+            macsetitemdisplayimage: response[i].macsetitemdisplayimage,
+            macmainsetitemtype: response[i].macmainsetitemtype,
+            macsetitemtype: response[i].macsetitemtype,
+            items: response[i].items
+         }
+
+   
+         req.mpcsets.push(dataObj)
+      }
+      console.log('MPC sets are loaded on the (U)ser (I)nterface')
+      await mongoose.connection.close();
+      res.status(200).send(req.mpcsets);  
+   })
+   
+   }
+   catch(err) {
+      console.log('Error while loading get mpc set A(pplication) P(rogram) I(nterface),' + '\n' + err)
+   } finally {
+      req.mpcsets = [];
+      return
+   }
+
+})
+//all 
+Router.route('/all/merchandises').get( async (req, res)=> {
+  
+ try {
+
+    await mongodb.connect(process.env.ATLAS_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        dbName: 'Item',
+        autoCreate: false   
+    })
+     
+    const Items = await mongoose.model('items', item);
+      
+    await Items.find()
+        .then((response)=> {
+          const responsedata = response;
+          console.log('All marketing merchandise\'s are loaded on the (U)ser (I)nterface')
+          mongoose.connection.close()
+          res.status(200).send(response)
+        })
+       
+   } catch(err) {
+      console.log('Error while loading all marketing merchandises A(pplication) P(rogram) I(nterface),' + '\n' + err)
+   } finally {
+      return
+   }
+ 
+       
+ })
+
+/////
 Router.route('/addamacsetitem').post( upload.single('macsetitemcontentdisplay'), async (req, res)=> {
 
    await mongodb.connect(process.env.ATLAS_URI, {
@@ -58,63 +144,6 @@ Router.route('/addamacsetitem').post( upload.single('macsetitemcontentdisplay'),
 
 })
 
-
-/// getting MAC set item #display in UI
-Router.route('/get').get( async (req, res)=> {
- 
-   req.macSetItems = [];
-
-   try {
-
-   await mongodb.connect(process.env.ATLAS_URI, {
-         useNewUrlParser: true,
-         useUnifiedTopology: true,
-         dbName: 'Macsetitem',
-         autoCreate: false
-   })
-   
-   /// compromis video upload between image item upload
-   const MacSetItem = mongoose.model('Macsetitems', macSetItem);
- 
-   MacSetItem.find()
-     .then( async (response)=> {
-
-      console.log('Mac set items')
-      console.log(response)
-
-      for ( let i = 0; i < response.length; i++) {
-         let dataObj = {
-            macsetitemnumber: response[i].macsetitemnumber,
-            originator: response[i].originator,
-            macsetitemproductname: response[i].macsetproductname,
-            macsetitemproductprice: response[i].macsetproductprice,
-            vat: response[i].vat, 
-            macsetitemproductdescription: response[i].macsetproductdescription,
-            macsetitemlocation: response[i].macsetitemlocation,
-            macsetweight: response[i].macsetweight,
-            macsetitemdisplayimage: response[i].macsetitemdisplayimage,
-            macmainsetitemtype: response[i].macmainsetitemtype,
-            macsetitemtype: response[i].macsetitemtype,
-            items: response[i].items
-         }
-
-   
-         req.macSetItems.push(dataObj)
-      }
-   
-      await mongoose.connection.close();
-      res.send(req.macSetItems);  
-     }).catch((err)=> {
-      console.log('Error getting all mac set items:,' + err)
-     })  
-  
-   } catch(err) {
-      console.log('Error accessing get Mac set route' + '</br>' + err)
-   } finally {
-      req.macSetItems = []
-   }
-
-})
 
 async function updateMacSetItemGetProduct(req, res, next) {
   

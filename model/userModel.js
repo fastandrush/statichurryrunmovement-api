@@ -92,7 +92,7 @@ const investor = new Schema({
     },
     itemsoncart: [],
     undertaker: []
-})
+},{_id: true})
 
 
 module.exports = investor;
